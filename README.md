@@ -160,21 +160,27 @@ MariaDB [(none)]> show slave status \G
          Relay_Master_Log_File: mysql-bin.000001
               Slave_IO_Running: Yes
              Slave_SQL_Running: Yes
+...
 ```
 ## Check Replication Between MariaDB Servers
 to make sure that the replication between two MariaDB servers works in master+master, we will create a new database & create a table on Master-1.
-- On Master-1, create database:
+- On Master-1:
 ```
+# create db and insert some records
 create database replic;
 use replic;
-CREATE TABLE employees (
+
+# creating table in replic database
+CREATE TABLE replictable (
     employee_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     department VARCHAR(50),
     salary DECIMAL(10, 2)
 );
-INSERT INTO employees (first_name, last_name, department, salary) VALUES
+
+# insert records into `replictable` 
+INSERT INTO replictable (first_name, last_name, department, salary) VALUES
     ('John', 'Doe', 'HR', 50000.00),
     ('Jane', 'Smith', 'IT', 60000.00),
     ('Bob', 'Johnson', 'Finance', 55000.00);
@@ -185,9 +191,10 @@ show databases;
 use replic;
 
 # to show tables
-select * from employees;
+select * from replictable;
+
 # add more records
-INSERT INTO employees (first_name, last_name, department, salary) VALUES
+INSERT INTO replictable (first_name, last_name, department, salary) VALUES
     ('lisa', 'lily', 'devops', 990000.00),
     ('rick', 'ifri', 'css', 90000.00);
 ```
